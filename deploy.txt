@@ -1,6 +1,0 @@
-*** Notes Environment Setup ***
-- the dev-environment can be found at Users/benjamintanz/.envs/productListing
-- activate the environment via source /Users/benjamintanz/.envs/productListing/bin/activate (dev-machine)
-- app configurations are for dev-mode only
-- EC2-connect: ssh -i "awssimplyfiman.pem" ubuntu@ec2-35-158-244-81.eu-central-1.compute.amazonaws.com
-- (webserver) sudo python3 manage.py runserver 0.0.0.0:80
