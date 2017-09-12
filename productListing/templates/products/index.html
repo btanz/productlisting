@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">ProductListing</a>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+<div class="row row-offcanvas row-offcanvas-right">
+    <div class="col-lg-8">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Shoes</li>
+            <li class="breadcrumb-item active">Sneaker</li>
+        </ol>
+        <div class="card-deck">
+            {% if product_list %}
+                {% for product in product_list|dictsortreversed:"bid" %}
+                    {% if forloop.counter0 < available_slots %}
+
+                       {% if forloop.counter0|divisibleby:2 and forloop.counter0 > 0 %}
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="card-deck">
+                       {% endif %}
+                        <div class="card">
+                            <img class="card-img-top" src="{% static product.product_image %}" alt="Card image cap">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ product.product_brand }}</h6>
+                                <h5 class="card-text">{{ product.product_name }}</h5>
+                                <h6 class="card-text red">{{ product.product_price }}</h6>
+                                <!--<p class="card-text"><small class="text-muted">{{product.product_brand}}</small></p>-->
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No products are available.</p>
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="col-lg-4 small-fonts">
+        <div class="spacer-large"></div>
+        <div class="jumbotron small-padding">
+            <div class="container">
+                <h4 class="display-4">Product Position Auction</h4>
+            </div>
+        </div>
+        <div class="alert alert-dark" role="alert">
+            <h6>Expected Auction revenue: {{revenue|floatformat:2}}</h6>
+        </div>
+        <hr>
+        <input type="button" class="btn btn-info btn-block" value="Refresh / New Auction" onclick="location.href='{% url 'index' %}';">
+        <div class="spacer"></div>
+        <table class="table">
+        <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Bid</th>
+            <th>Valuation</th>
+            <th>Brand</th>
+            <th>Name</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% if valuations %}
+            {% for product, value in valuations%}
+            <tr>
+                {% if forloop.counter0 < available_slots %}
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td><strong>{{product.bid|floatformat:2}}</strong></td>
+                    <td><strong>{{value|floatformat:2}}</strong></td>
+                    <td><strong>{{product.product_brand}}</strong></td>
+                    <td><strong>{{product.product_name}}</strong></td>
+                {% else %}
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{product.bid|floatformat:2}}</td>
+                    <td>{{value|floatformat:2}}</td>
+                    <td>{{product.product_brand}}</td>
+                    <td>{{product.product_name}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        {% endif %}
+
+        </tbody>
+        </table>
+
+    </div>
+
+</div>
+<div class="spacer"></div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="jumbotron jumbotron-fluid small-padding">
+            <div class="container">
+                <p class="lead">About this app</p>
+                <p>The purpose of this app-prototype is to illustrate equilibrium-bidding for slots and positions on a product plattform given valuations. </p>
+                <p>15 products from 3 brands/labels compete for 6 slots that can be shown to a visitor. Products/brands compete also for the position within the available slots. The click-through-rates (CTRs) are nonzero and decreasing over positions for visible slots and zero for invisible slots. The assumed CTRs in this case are {{ctrs}}.</p>
+                <p><strong>A click on "Refresh" causes the following actions:</strong></p>
+                <ul>
+                    <li><i>Valuations are drawn from a distribution (valuations are assumed i.i.d Normal)</i> - Valuations can be interpreted as the value of a click, which in turn can be interpreted as the unit margin (before paying for clicks).</li>
+                    <li><i>Equilbrium bids are computed</i> - In particular, a set of equilibrium bids for a symmetric Nash-equilibrium of a generalized second-price-auction are computed. Note: Generically, there are multiple equilibria.</li>
+                    <li><i>Expected revenue is computed</i></li>
+                    <li><i>Products are displayed in the order of bids</i></li>
+                </ul>
+                <p><strong>Assumptions (excerpt):</strong></p>
+                <ul>
+                    <li>CTRs only depend on slot position (and hence not on the product shown at a position). Comment: Validity of this assumption depends on the category. Assumption can be relaxed by introducing another parameter. </li>
+                    <li>Payments occur per (hypothetical) click on a product. Comment: This is a simplification, since there may be more steps necessary for a conversion (or valuations already account for it).</li>
+                </ul>
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li>Bidder in position x pays bid of bidder x-1 per click (second-price-auction) </li>
+                    <li>Expected revenue accounts for the possibility of no click (and hence no revenue) in case the sum of CTRs is less than 1</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+<footer>
+    <p>Pictures: Pixabay</p>
+    <p>&copy; Benjamin Tanz 2017</p>
+</footer>
+{% endblock %}
