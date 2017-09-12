@@ -8,12 +8,12 @@ The purpose of this app-prototype is to illustrate equilibrium-bidding for slots
 * The CTR is zero for slots/products not displayed.
 * Brands/labels/sellers receive some benefit if a product is clicked (Suppose, with some loss of generality, a click is a purchase of a single product item.) The valuation quantifies this benefit.
 * Valuations vary across products and can be interpreted as the unit margin of a product (before paying for clicks). Generally, the higher the unit margin, the higher the valuation of a slot. 
-* Products compete for available slots and the position within the available slots
+* Products compete for available slots and the position of the slot on the page
 
 ### Process
 Visiting the page or clicking on "Refresh" causes the following actions:
 * Valuations are drawn from a distribution (valuations are assumed i.i.d Normal) 
-* Equilbrium bids are computed - In particular, a set of equilibrium bids for a symmetric Nash-equilibrium of a generalized second-price-auction are computed. Note: Generically, there are multiple equilibria.
+* Equilbrium bids are computed - In particular, a set of equilibrium bids for a symmetric Nash-equilibrium of a generalized second-price-auction is computed. Note: Generically, there are multiple equilibria.
 * Expected revenue (to the plattform) is computed
 * Products are displayed in the order of bids
 * Other statistics - such as equilibrium bids and the auction revenue - are displayed. 
