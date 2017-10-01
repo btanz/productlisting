@@ -1,5 +1,5 @@
 # Auction-based product listings (prototype)
-The purpose of this app-prototype is to illustrate equilibrium-bidding for slots and positions on a product plattform given valuations for these slots and positions. The app is written in Python using Django and hosted at http://35.158.244.81/. More details below.
+The purpose of this app-prototype is to illustrate equilibrium-bidding for slots and positions on a product plattform given valuations for these slots and positions. The app is written in Python using Django. More details below.
 
 ### Setup
 * There are 15 products from 3 brands/labels
